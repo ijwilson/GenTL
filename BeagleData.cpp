@@ -1,4 +1,4 @@
-#include "BeagleData.H"
+#include "BeagleData.h"
 #include <iostream>
 #include <iterator>
 #include <stdexcept>

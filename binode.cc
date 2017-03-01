@@ -1,4 +1,4 @@
-#include "binode.H"
+#include "binode.h"
 
 inline int WithinCalculations(int L, int R,int dL,int dR)
 {

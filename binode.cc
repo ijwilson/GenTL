@@ -92,8 +92,8 @@ std::pair<int,int> binode::RecurseLeftRightDistances(const std::vector<int> &Cas
     localCC[0]=left->localCC[0]+right->localCC[0];
     localCC[1]=left->localCC[1]+right->localCC[1];
 
-    return std::pair<int,int>(std::min(leftDistance.first,rightDistance.first)+1,
-                              std::min(leftDistance.second,rightDistance.second)+1);
+    return std::pair<int,int>(std::min(leftDistance.first, rightDistance.first)+1,
+                              std::min(leftDistance.second, rightDistance.second)+1);
   }
 }
 

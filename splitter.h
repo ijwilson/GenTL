@@ -87,15 +87,15 @@ public:
 
 //   }
 
-  std::vector<double> qtlStat( const vector<double> &qvals,int maxk=5,const char *pick="Z") {
+  std::vector<double> qtlStat( const vector<double> &qvals, int maxk=5, const char *pick="Z") {
     double meanvar[2];
-    avevar(qvals,meanvar[0],meanvar[1]);
+    avevar(qvals, meanvar[0], meanvar[1]);
     double sumx;
     switch(pick[0]) {
-    case 'Z': return root->RecurseZStat2(qvals,sumx,maxk,meanvar);
-    case 'A': return root->RecurseZStatA(qvals,sumx,maxk,meanvar);
-    case 'P': return root->RecurseZStatP(qvals,sumx,maxk,meanvar);
-    case 'N': return root->RecurseZStatN(qvals,sumx,maxk,meanvar);
+    case 'Z': return root->RecurseZStat2(qvals, sumx, maxk, meanvar);
+    case 'A': return root->RecurseZStatA(qvals, sumx, maxk, meanvar);
+    case 'P': return root->RecurseZStatP(qvals, sumx, maxk, meanvar);
+    case 'N': return root->RecurseZStatN(qvals, sumx, maxk, meanvar);
 
     default: 
       std::ostringstream oss;
@@ -123,8 +123,8 @@ public:
       res[3]=tmp[0];
       res[4]=tmp[1];
       res[5]=tmp[2];
-      res[6]=static_cast<double>(root->labels.size()); // total
-      res[7]=static_cast<double>(cases.size()); // ncases
+      res[6]=static_cast<double>(root->labels.size());      // total
+      res[7]=static_cast<double>(cases.size());             // ncases
       return res;
     }
     case 'H':  {
@@ -183,7 +183,7 @@ public:
  
       res[0] =  (tmp[2]-tmp[0])/static_cast<double>(CC[0]);                  // clustering  of cases
       res[1] =  (tmp[3]-tmp[1])/static_cast<double>(CC[1]-CC[0]);            // clustering of controls
-      res[2] =  (tmp[3]+tmp[2]-tmp[1]-tmp[0])/static_cast<double>(CC[1]);   // Clustering of cases and controls
+      res[2] =  (tmp[3]+tmp[2]-tmp[1]-tmp[0])/static_cast<double>(CC[1]);    // Clustering of cases and controls
       res[3] =  (tmp[2])/(1.0+tmp[0]);                                       // ratio Case Clustering
       res[4] =  (tmp[3])/(1.0+tmp[1]);                     
       res[5] =  (tmp[2]+tmp[3])/(1.0+tmp[0]+tmp[1]);

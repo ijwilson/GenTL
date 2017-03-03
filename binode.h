@@ -272,9 +272,11 @@ public:
     return newMaxValues;  
   }
 
+  // Calculate the recursive test statistics for a QTL.  The squared Z statistic   
+  // xx contains the test statistics for each haplotype indexed by the labels at each node
   std::vector<double> RecurseZStat2(const std::vector<double> &xx, double &sumx,const int maxk,double meanvar[2]) {
 
-    std::vector<double> newMaxValues(maxk,0.0);
+    std::vector<double> newMaxValues(maxk, 0.0);
     
     if (isleaf()) {
       /** need to calculate test statistics for a leaf node - get the mean  */
@@ -283,9 +285,9 @@ public:
       double n=static_cast<double>(labels.size());
       newMaxValues[0]= n*(sumx/n - meanvar[0])*(sumx/n - meanvar[0])/meanvar[1];
     } else {
-      double Leftsumx,Rightsumx;
-      std::vector<double> LeftStat=left->RecurseZStat2(xx,Leftsumx,maxk,meanvar);
-      std::vector<double> RightStat=right->RecurseZStat2(xx,Rightsumx,maxk,meanvar);
+      double Leftsumx, Rightsumx;
+      std::vector<double> LeftStat=left->RecurseZStat2(xx, Leftsumx, maxk, meanvar);
+      std::vector<double> RightStat=right->RecurseZStat2(xx, Rightsumx, maxk, meanvar);
       sumx=Leftsumx+Rightsumx;
       double n=static_cast<double>(labels.size());
       // First calculate the maximum node below this one (including this one
@@ -303,6 +305,7 @@ public:
     }
     return newMaxValues;  
   }
+  
   std::vector<double> RecurseContinuousTestStatistics(const std::vector<double> &xx,const double meanvar[2],const int maxk,double sms[2], double (*CalcStat)(double *,const double *, int)) {
 
     std::vector<double> newMaxValues(maxk,0.0);

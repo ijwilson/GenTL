@@ -16,24 +16,26 @@ int CountIntersection(const std::vector<T> &a, const std::vector<T> &b)
   typename std::vector<T>::const_iterator al=a.end(),bl=b.end(),ii=a.begin(),jj=b.begin();
   int count=0;
   while (ii!=al && jj!=bl) {
-    if (*ii<*jj) ++ii;
-    else if (*jj<*ii) ++jj;
-    else {
+    if (*ii<*jj) {
+      ++ii;
+    } else if (*jj<*ii) {
+      ++jj;
+    } else {
       count++;
       ii++;
       jj++;
     }
   }
   return count;
-} 
+}
 
 using std::pair;
 using std::stack;
 
 template <class T> class NLRIterator;
-/** A class for representing haplotype trees                               
- *  The trees are represented as binary nodes with the addition of a 
- *  vector of labels for each node, and the position of the SNP that causes 
+/** A class for representing haplotype trees
+ *  The trees are represented as binary nodes with the addition of a
+ *  vector of labels for each node, and the position of the SNP that causes
  *  the particular split.  Up is included, but not used yet, so that it
  *  is easier to calculate distances between nodes.
  *
@@ -46,16 +48,16 @@ public:
   std::ostream & printlabels(std::ostream &o) {
     std::copy(labels.begin(),labels.end(),std::ostream_iterator<int>(o," "));
     return o;
-  }  
+  }
 
-  
+
   std::pair<int,int> RecurseLeftRightDistances(const std::vector<int> &Cases);
   std::vector<int>  RecurseCherries(const std::vector<int> &Cases);
   std::vector<double>  RecurseSumHeight(const std::vector<int> &Cases,int CC[2]);
 
 
-  /** A function to turn a tree into something that looks like an ape tree object    
-   * count is the number that should be assigned to this node                    
+  /** A function to turn a tree into something that looks like an ape tree object
+   * count is the number that should be assigned to this node
    * the function returns the number of the next available node            */
   int recurseApeSplit(std::vector<std::pair<int,int> > &Edge, std::vector<std::vector<int> > &labs
 		      ,int count)
@@ -68,7 +70,7 @@ public:
     } else {
       Edge.push_back(std::pair<int,int>(count,newcount));
       newcount=left->recurseApeSplit(Edge,labs,newcount);
-    } 
+    }
     if (right->isleaf()) {
       labs.push_back(right->labels);
       Edge.push_back(std::pair<int,int>(count,labs.size()));
@@ -83,8 +85,8 @@ public:
     return (left==0);
   }
   /** Get the nearest Neighbour.
-   * This is defined for a leaf node and is the rightnode (if this is left) 
-   * or the left node (if this is right).  One must check that it is a leaf 
+   * This is defined for a leaf node and is the rightnode (if this is left)
+   * or the left node (if this is right).  One must check that it is a leaf
    * if you want to do further processing                                   */
   binode *NN() {
     assert(isleaf());
@@ -99,21 +101,21 @@ public:
      if (labels.size()==1) return std::pair<int,int>(-1,-1);
    }
 
-  /** returns a string which gives the set of mutations 
-   * that occur to get here on the tree    
+  /** returns a string which gives the set of mutations
+   * that occur to get here on the tree
    */
 
   std::vector<std::pair<int,int> > ToGetHere() const {
     if (up==0) return std::vector<std::pair<int,int> >(0);
-    
+
     std::vector<std::pair<int,int> > res = up->ToGetHere();
     if (up->left==this) res.push_back(std::pair<int,int>(up->position,0));
     else  res.push_back(std::pair<int,int>(up->position,1));
     if (isleaf())  res.push_back(std::pair<int,int>(0,0));
     return res;
   }
-   
-   int GetLength(int centre,const TNT::Array2D<int> &haps) 
+
+   int GetLength(int centre,const TNT::Array2D<int> &haps)
    {
    		if (labels.size()==1) return -1;
    		int nSNP=haps.dim2();
@@ -139,14 +141,18 @@ public:
         }
         // Right should hold the maximum split to the right
         // or nSNP if it has reached the end
-        return Right-Left;	
+        return Right-Left;
    }
 
- 
-  std::vector<double> RecurseTestStatistics(const std::vector<int> &Cases, const double p,const int maxk, int CC[2], double (*CalcStat)(int,int, double)) {
+
+  std::vector<double> RecurseTestStatistics(const std::vector<int> &Cases,
+                                            const double p,
+                                            const int maxk,
+                                            int CC[2],
+                                            double (*CalcStat)(int,int, double)) {
 
     std::vector<double> newMaxValues(maxk,0.0);
-    
+
     if (isleaf()) {
       CC[0]=CountIntersection(Cases,labels);
       CC[1]=static_cast<int>(labels.size());
@@ -162,7 +168,7 @@ public:
       newMaxValues[0]=std::max(CalcStat(CC[0],CC[1],p),std::max(LeftStat[0],RightStat[0]));
       // now work out the maximum disjoint values for k = 2 up to its max value
       for (int d=1;d<maxk;d++) {  // This the the maximum CountStat values
-        double maxVal=std::max(LeftStat[d],RightStat[d]);    
+        double maxVal=std::max(LeftStat[d],RightStat[d]);
         int sumIndices=d-1;
         // what is the maximum made up of 0 to the left and sumIndicies to the right and the opposite
         for (int i=0;i<=sumIndices;i++) // i+1 to the left and CountStat-i-1 to the right
@@ -170,55 +176,60 @@ public:
         newMaxValues[d] = maxVal;
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
+  /** A tree statistic for continuous traits that uses the standard Z statistic
+  */
+  std::vector<double> RecurseZStatA(const std::vector<double> &xx, double &sumx,
+                                    const int maxk, double meanvar[2]) {
 
-  std::vector<double> RecurseZStatA(const std::vector<double> &xx, double &sumx,const int maxk,double meanvar[2]) {
+      std::vector<double> newMaxValues(maxk,0.0);
 
-    std::vector<double> newMaxValues(maxk,0.0);
-    
-    if (isleaf()) {
-      /** need to calculate test statistics for a leaf node - get the mean  */
-      sumx=0.0;
-      for (size_t ii=0;ii<labels.size();ii++) sumx += xx[labels[ii]];
-  
-      double n=static_cast<double>(labels.size());
-      newMaxValues[0]= fabs((sumx/n - meanvar[0])/(sqrt(meanvar[1]/n)));
-    } else {
-      double Leftsumx,Rightsumx;
-      std::vector<double> LeftStat=left->RecurseZStatA(xx,Leftsumx,maxk,meanvar);
-      std::vector<double> RightStat=right->RecurseZStatA(xx,Rightsumx,maxk,meanvar);
-      sumx=Leftsumx+Rightsumx;
-      double n=static_cast<double>(labels.size());
-      // First calculate the maximum node below this one (including this one
-      // maximum of this node and the maxima to the below left and right
-      newMaxValues[0]=std::max(fabs((sumx/n - meanvar[0])/(sqrt(meanvar[1]/n))),std::max(LeftStat[0],RightStat[0]));
-      // now work out the maximum disjoint values for k = 2 up to its max value
-      for (int d=1;d<maxk;d++) {  // This the the maximum CountStat values
-        double maxVal=std::max(newMaxValues[d-1],std::max(LeftStat[d],RightStat[d]));    // all to either the left or right 0 the other way or take the node!
+      if (isleaf()) {
+        /** need to calculate test statistics for a leaf node - get the mean  */
+        sumx=0.0;
+        for (size_t ii=0;ii<labels.size();ii++) sumx += xx[labels[ii]];
 
-        int sumIndices=d-1;
-        // what is the maximum made up of 0 to the left and sumIndicies to the right and the opposite
-        for (int i=0;i<=sumIndices;i++) // i+1 to the left and CountStat-i-1 to the right
+        double n=static_cast<double>(labels.size());
+        newMaxValues[0]= fabs((sumx/n - meanvar[0])/(sqrt(meanvar[1]/n)));
+      } else {
+        double Leftsumx,Rightsumx;
+        std::vector<double> LeftStat=left->RecurseZStatA(xx,Leftsumx,maxk,meanvar);
+        std::vector<double> RightStat=right->RecurseZStatA(xx,Rightsumx,maxk,meanvar);
+        sumx=Leftsumx+Rightsumx;
+        double n=static_cast<double>(labels.size());
+        // First calculate the maximum node below this one (including this one
+        // maximum of this node and the maxima to the below left and right
+        newMaxValues[0]=std::max(fabs((sumx/n - meanvar[0])/(sqrt(meanvar[1]/n))),std::max(LeftStat[0],RightStat[0]));
+        // now work out the maximum disjoint values for k = 2 up to its max value
+        for (int d=1;d<maxk;d++) {  // This the the maximum CountStat values
+          double maxVal=std::max(newMaxValues[d-1],std::max(LeftStat[d],RightStat[d]));    // all to either the left or right 0 the other way or take the node!
+
+          int sumIndices=d-1;
+          // what is the maximum made up of 0 to the left and sumIndicies to the right and the opposite
+          for (int i=0;i<=sumIndices;i++) // i+1 to the left and CountStat-i-1 to the right
           if (LeftStat[i]+RightStat[sumIndices-i]>maxVal) maxVal = LeftStat[i]+RightStat[sumIndices-i];
-        newMaxValues[d] = maxVal;
+          newMaxValues[d] = maxVal;
+        }
       }
+      return newMaxValues;
     }
-    return newMaxValues;  
-  }
-  std::vector<double> RecurseZStatP(const std::vector<double> &xx, double &sumx,const int maxk,double meanvar[2]) {
+  /** A tree statistic for continuous traits, based on the standard Z statistic
+    * At the moment this is the same as the standard Z statistic so not sure what is wrong */
+   std::vector<double> RecurseZStatP(const std::vector<double> &xx,
+                        double &sumx,const int maxk,double meanvar[2]) {
     std::vector<double> newMaxValues(maxk,0.0);
     if (isleaf()) {
       /** need to calculate test statistics for a leaf node - get the mean  */
       sumx=0.0;
       for (size_t ii=0;ii<labels.size();ii++) sumx += xx[labels[ii]];
-  
+
       double n=static_cast<double>(labels.size());
       newMaxValues[0]= (sumx/n - meanvar[0])/(sqrt(meanvar[1]/n));
     } else {
       double Leftsumx,Rightsumx;
-      std::vector<double> LeftStat=left->RecurseZStatP(xx,Leftsumx,maxk,meanvar);
-      std::vector<double> RightStat=right->RecurseZStatP(xx,Rightsumx,maxk,meanvar);
+      std::vector<double> LeftStat=left->RecurseZStatP(xx, Leftsumx, maxk, meanvar);
+      std::vector<double> RightStat=right->RecurseZStatP(xx, Rightsumx, maxk, meanvar);
       sumx=Leftsumx+Rightsumx;
       double n=static_cast<double>(labels.size());
       // First calculate the maximum node below this one (including this one
@@ -235,18 +246,18 @@ public:
         newMaxValues[d] = maxVal;
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
-
+  /** A Third tree statistic for continuous traits omn a tree.  */
   std::vector<double> RecurseZStatN(const std::vector<double> &xx, double &sumx,const int maxk,double meanvar[2]) {
 
     std::vector<double> newMaxValues(maxk,0.0);
-    
+
     if (isleaf()) {
       /** need to calculate test statistics for a leaf node - get the mean  */
       sumx=0.0;
       for (size_t ii=0;ii<labels.size();ii++) sumx += xx[labels[ii]];
-  
+
       double n=static_cast<double>(labels.size());
       newMaxValues[0]= -(sumx/n - meanvar[0])/(sqrt(meanvar[1]/n));
     } else {
@@ -269,15 +280,15 @@ public:
         newMaxValues[d] = maxVal;
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
 
-  // Calculate the recursive test statistics for a QTL.  The squared Z statistic   
+  // Calculate the recursive test statistics for a QTL.  The squared Z statistic
   // xx contains the test statistics for each haplotype indexed by the labels at each node
   std::vector<double> RecurseZStat2(const std::vector<double> &xx, double &sumx,const int maxk,double meanvar[2]) {
 
     std::vector<double> newMaxValues(maxk, 0.0);
-    
+
     if (isleaf()) {
       /** need to calculate test statistics for a leaf node - get the mean  */
       sumx=0.0;
@@ -303,13 +314,13 @@ public:
         newMaxValues[d] = maxVal;
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
-  
+
   std::vector<double> RecurseContinuousTestStatistics(const std::vector<double> &xx,const double meanvar[2],const int maxk,double sms[2], double (*CalcStat)(double *,const double *, int)) {
 
     std::vector<double> newMaxValues(maxk,0.0);
-    
+
     if (isleaf()) {
       /** need to calculate test statistics for a leaf node - get the mean  */
       sms[0]=sms[1]=0.0;
@@ -331,7 +342,7 @@ public:
       newMaxValues[0]=std::max(CalcStat(sms,meanvar,n),std::max(LeftStat[0],RightStat[0]));
       // now work out the maximum disjoint values for k = 2 up to its max value
       for (int d=1;d<maxk;d++) {  // This the the maximum CountStat values
-        double maxVal=std::max(LeftStat[d],RightStat[d]);    
+        double maxVal=std::max(LeftStat[d],RightStat[d]);
         int sumIndices=d-1;
         // what is the maximum made up of 0 to the left and sumIndicies to the right and the opposite
         for (int i=0;i<=sumIndices;i++) // i+1 to the left and CountStat-i-1 to the right
@@ -339,25 +350,25 @@ public:
         newMaxValues[d] = maxVal;
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
 
 
-  /** The sum of minimum distances to the nearest case, nearest control and nearest different 
+  /** The sum of minimum distances to the nearest case, nearest control and nearest different
    *   The returned value consists of D0 - sum of cases, D1, sum of controls, d2 - sum of differences
    * d3 - distance to nearest case to left, d4 distance to nearest control to left
-   * d5 - distance to nearest case to right, d6 - distance to nearest control to right         
+   * d5 - distance to nearest case to right, d6 - distance to nearest control to right
    */
   std::vector<double> TreeDistanceStatistic(const std::vector<int> &Cases, int CC[2], int d[2]);
 
   std::vector<std::pair<double, std::vector< binode *> > >  RecurseTestNodes(const std::vector<int> &Cases, const double p,const int maxk, int CC[2], double (*CalcStat)(int,int, double)) {
-    
+
     std::vector<std::pair<double, std::vector< binode *> > > newMaxValues(maxk);
     for (int i=0;i<maxk;i++) {
       newMaxValues[i].first=0.0;
       newMaxValues[i].second.resize(i+1,0);
     }
-    
+
     if (isleaf()) {
       CC[0]=CountIntersection(Cases,labels);
       CC[1]=static_cast<int>(labels.size());
@@ -380,8 +391,8 @@ public:
       if (CalcStat(CC[0],CC[1],p) > newMaxValues[0].first) {
         newMaxValues[0].first = CalcStat(CC[0],CC[1],p);
         newMaxValues[0].second[0] = this;
-      } 
-      
+      }
+
       // now work out the maximum disjoint values for k up to its max value
       for (int d=1;d<maxk;d++) {  // This the the maximum CountStat+1 values
         // what is the maximum made up of 1 to the left and CountStat to the right
@@ -410,7 +421,7 @@ public:
         }
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
 
 
@@ -418,18 +429,18 @@ public:
   std::vector<double> SevonTestStatisticsFaster(const std::vector<int> &Cases, const double p,const int maxk, int CC[2]) {
 
     std::vector<double> newMaxValues(maxk,0.0);
-    
+
     if (isleaf()) {
       CC[0]=CountIntersection(Cases,labels);
       CC[1]=static_cast<int>(labels.size());
-      newMaxValues[0]=(static_cast<double>(CC[0])-CC[1]*p)/sqrt(CC[1]*p*(1.-p));    
+      newMaxValues[0]=(static_cast<double>(CC[0])-CC[1]*p)/sqrt(CC[1]*p*(1.-p));
     } else {
       int LeftCC[2],RightCC[2];
       std::vector<double> LeftStat=left->SevonTestStatisticsFaster(Cases,p,maxk,LeftCC);
       std::vector<double> RightStat=right->SevonTestStatisticsFaster(Cases,p,maxk,RightCC);
       CC[0]=LeftCC[0]+RightCC[0];
       CC[1]=LeftCC[1]+RightCC[1];
-      double z=(static_cast<double>(CC[0])-CC[1]*p)/sqrt(CC[1]*p*(1.-p));    
+      double z=(static_cast<double>(CC[0])-CC[1]*p)/sqrt(CC[1]*p*(1.-p));
       // first get the maximum value from the left, the right and the current value
       // Note that this is the only place the current value can be used
       newMaxValues[0]=std::max(LeftStat[0],RightStat[0]);
@@ -445,39 +456,39 @@ public:
         if (newMaxValues[CountStat]<newMaxValues[CountStat-1]) newMaxValues[CountStat]=newMaxValues[CountStat-1];
       }
     }
-    return newMaxValues;  
+    return newMaxValues;
   }
 
 
 
-  std::vector<std::pair<int,double> > 
+  std::vector<std::pair<int,double> >
   maxLengths(int centre, int k, int maxn, const TNT::Array2D<int> &data) {
     std::vector<std::pair<int,double> > Left;
     if (labels.size()<static_cast<size_t>(k)) return Left;
     if (isleaf()) {
       Left.push_back(std::pair<int,double>(labels.size(),GetLength(centre,data)));
       return Left;
-    } 
+    }
     std::pair<int,double> here(labels.size(),GetLength(centre,data));
     //Left.second=left->maxLengths(centre,k,maxn,data);
     // Left.first=left->labels.size();
     //int Right = right->maxLengths(centre,k,maxn,data);
-    
+
     //std::vector<std::pair<int,double> > Right=right->maxLengths(centre,k,maxn,data);
-    return Left; 
+    return Left;
   }
   void RecurseUpDistances() {
     assert(!isleaf());
     left->distance[0][0] = std::min(distance[0][2],distance[0][0])+1;
-    left->distance[1][0] = std::min(distance[1][2],distance[1][0])+1;    
+    left->distance[1][0] = std::min(distance[1][2],distance[1][0])+1;
     if (!left->isleaf())   left->RecurseUpDistances();
-    
+
     right->distance[0][0] = std::min(distance[0][0],distance[0][1])+1;
-    right->distance[1][0] = std::min(distance[1][0],distance[1][1])+1;    
-    if (!right->isleaf())   right->RecurseUpDistances();  
+    right->distance[1][0] = std::min(distance[1][0],distance[1][1])+1;
+    if (!right->isleaf())   right->RecurseUpDistances();
   }
 
-  
+
 public:
   /** The data                                                                        */
   binode *left;
@@ -491,14 +502,14 @@ public:
 
 
 
-/** A class to step through a tree in Node - LEFT - RIGHT order 
+/** A class to step through a tree in Node - LEFT - RIGHT order
  * (This is known as preorder tree traversal in CS literature)
  * which is the same order that the ape phylo class seems to use
- * so this should enable us to link statistics calculated 
+ * so this should enable us to link statistics calculated
  * on these internal nodes to tree graphs produced in the R ape class
  * This returns a 0 when it gets to the last node
  */
-template <class T> 
+template <class T>
 class NLRIterator {
 public:
   /** Construct from the root                                  */
@@ -529,7 +540,7 @@ public:
     return (current==0);
   }
   /** Return the object that the iterator is pointing to       */
-  T *operator *() const {	 
+  T *operator *() const {
     return current;
   }
 private:
@@ -552,10 +563,10 @@ private:
   stack<T *> visited;  /** which nodes have already been visited */
 };
 
-/** A class to step through a tree in LEFT - RIGHT - Node order 
+/** A class to step through a tree in LEFT - RIGHT - Node order
  * (commonly known by computer scientists as postorder tree traversal)
  */
-template <class T> 
+template <class T>
 class LRNIterator {
 public:
   /** Construct from the root                                  */
@@ -566,7 +577,7 @@ public:
     current=start;
   	while (!current->isleaf()) {
       visited.push(std::pair<T*,bool>(current,false));
-      current=current->left;	
+      current=current->left;
   	}
   }
   /** Step through one unit                                    */
@@ -593,7 +604,7 @@ public:
     return (current==0);
   }
   /** Return the object that the iterator is pointing to       */
-  T *operator *() const {	 
+  T *operator *() const {
     return current;
   }
 private:

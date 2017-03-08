@@ -17,10 +17,13 @@ using std::stack;
 
 template <typename T> 
 bool SNPmatch( T **hap, const vector<int> &rows, int col);
+
 template<typename T>
 bool mismatch(std::vector<T> &labels, T *cases, int nc);
+
 template<typename T>
 bool mismatch2(vector<T> &labels, T *cases, int nc);
+
 template<typename T>
 int count_intersection(vector<T> &a, vector<T> &b);
 /** Note that both of these should be sorted                               */
@@ -80,12 +83,7 @@ public:
     }
     return count;
   }
-  /** return the pairwise distances between every pair of nodes               */
-//   TNT::Array2D<int> Pairwisedistances() {
-    
-
-//   }
-
+  
   std::vector<double> qtlStat( const vector<double> &qvals, int maxk=5, const char *pick="Z") {
     double meanvar[2];
     avevar(qvals, meanvar[0], meanvar[1]);
@@ -360,19 +358,18 @@ void splitter<T>::getNodesPositions(std::vector<int> &pos)
 /** Get the number of cases and controls at the leaves - this should be in 
  * lexical search order */
 template <typename T>
-void splitter<T>::getCaseControlLeaves(TNT::Array2D<int> &ncc,   std::vector<int> &cases) 
+void splitter<T>::getCaseControlLeaves(TNT::Array2D<int> &ncc, std::vector<int> &cases) 
   {
     NLRIterator<binode> ii(root);
     ii.nextLeaf();   // the root can never be a leaf
     int count=0;
     while (!ii.isend()) {
-      ncc[count][0]=count_intersection((*ii)->labels,cases);
+      ncc[count][0] = count_intersection((*ii)->labels,cases);
       ncc[count][1] = (*ii)->labels.size()-ncc[count][0];
       count++;
       ii.nextLeaf();
     }
   }
-
 
 /** Get the length of shared haplotypes at a set of nodes.  Need to search 
  * below the node to work out the minimum to the left and to the right 
@@ -431,47 +428,47 @@ void splitter<T>::getLengths(int CentrePos,int *posLRnode, int *posLRtip)
 
 template <typename T>
 void splitter<T>::getTipLengths(int StartingPoint, TNT::Array2D<int> &posLRtip) 
-  {
-    NLRIterator<binode> ii(root);
-    ii.nextLeaf();
-    int countTip=0;
-    while (!ii.isend()) {
-      if ((*ii)->labels.size()==1) {  
-	// a single node at this split.  shared length is 0 or the entire choice of 
-	// positions - leave this for another function to decide, and return -1 for 
-	// both left and right
-	posLRtip[countTip][0]=-1;
-	posLRtip[countTip++][1]=-1;
-      } else {
-	int Left,Right;
-	size_t jj;
-	std::vector<int> &labs=(*ii)->labels;
-	// find the maximum value to the left that is shared
-	for (Left=StartingPoint;Left>=0;Left--) {
-	  int MatchSNP=haps[labs[0]][Left];
-	  for (jj=1;jj<labs.size();jj++) {
-	    if (haps[labs[jj]][Left]!=MatchSNP) break;
-	  }
-	  // we we have reached the end of labels and there was no split
-	  // then continue - otherwise break
-	  if (jj!=labs.size()) break;
-	}
-	// Left should hold the maximum split to the left
-	for (  Right=StartingPoint;Right<nSNP;Right++) {
-	  int MatchSNP=haps[labs[0]][Right];
-	  for (jj=1;jj<labs.size();jj++) {
-	    if (haps[labs[jj]][Right]!=MatchSNP) break;
-	  }
-	  if (jj!=labs.size()) break;
-	}
-	// Right should hold the maximum split to the right
-	// or nSNP if it has reached the end
-	posLRtip[countTip][0]=Left;
-	posLRtip[countTip++][1]=Right;
+{
+  NLRIterator<binode> ii(root);
+  ii.nextLeaf();
+  int countTip=0;
+  while (!ii.isend()) {
+    if ((*ii)->labels.size()==1) {  
+      // a single node at this split.  shared length is 0 or the entire choice of 
+      // positions - leave this for another function to decide, and return -1 for 
+      // both left and right
+      posLRtip[countTip][0]=-1;
+      posLRtip[countTip++][1]=-1;
+    } else {
+      int Left,Right;
+      size_t jj;
+      std::vector<int> &labs=(*ii)->labels;
+      // find the maximum value to the left that is shared
+      for (Left=StartingPoint;Left>=0;Left--) {
+        int MatchSNP=haps[labs[0]][Left];
+        for (jj=1;jj<labs.size();jj++) {
+          if (haps[labs[jj]][Left]!=MatchSNP) break;
+        }
+        // we we have reached the end of labels and there was no split
+        // then continue - otherwise break
+        if (jj!=labs.size()) break;
       }
-      ii.nextLeaf();
+      // Left should hold the maximum split to the left
+      for (  Right=StartingPoint;Right<nSNP;Right++) {
+        int MatchSNP=haps[labs[0]][Right];
+        for (jj=1;jj<labs.size();jj++) {
+          if (haps[labs[jj]][Right]!=MatchSNP) break;
+        }
+        if (jj!=labs.size()) break;
+      }
+      // Right should hold the maximum split to the right
+      // or nSNP if it has reached the end
+      posLRtip[countTip][0]=Left;
+      posLRtip[countTip++][1]=Right;
     }
+    ii.nextLeaf();
   }
+}
 
 /** Split a binode based on the SNP at position 
  * 
@@ -609,11 +606,8 @@ template<typename T>
 template <typename T>
  std::vector<std::pair<int,double> >
   splitter<T>::maxLengths(int k, int nmax) {
-  std::vector<std::pair<int,double> > a;
-  return a;
-  	
-  	
+     std::vector<std::pair<int,double> > a;
+     return a;	
   }
   
-
 #endif

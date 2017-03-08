@@ -24,7 +24,7 @@ public:
   void addPositions(const std::string &filename);
   void addRegions(const std::string &filename);
   /** Get a vector with the indices of cases          */
-  std::vector<int> GetCases(int val,int trait=0) const;
+  std::vector<int> GetCases(int val, int trait=0) const;
 public:
   TNT::Array2D<int> haplotypes;
   std::vector<std::string> MarkerNames;

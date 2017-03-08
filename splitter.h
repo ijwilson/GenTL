@@ -281,8 +281,7 @@ public:
     return xx;
   }
   /** Get the set of maximum average lengths (for nodes with > k individuals */
-  std::vector<std::pair<int,double> >
-  maxLengths(int k, int nmax); 
+  std::vector<std::pair<int,double> > maxLengths(int k, int nmax); 
   
 private:
   binode *root;                             /// The root of the tree

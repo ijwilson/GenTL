@@ -43,19 +43,17 @@ template <class T> class NLRIterator;
  */
 class binode {
 public:
-  binode(const std::vector<int> &a,binode *father=0):
-    left(0),right(0),up(father),position(-1),labels(a) {}
+  binode(const std::vector<int> &a, binode *father=0):
+    left(0), right(0), up(father), position(-1), labels(a) {}
   /** Print the labels at a node                                           */
   std::ostream & printlabels(std::ostream &o) {
     std::copy(labels.begin(),labels.end(),std::ostream_iterator<int>(o," "));
     return o;
   }
 
-
   std::pair<int,int> RecurseLeftRightDistances(const std::vector<int> &Cases);
   std::vector<int>  RecurseCherries(const std::vector<int> &Cases);
   std::vector<double>  RecurseSumHeight(const std::vector<int> &Cases,int CC[2]);
-
 
   /** A function to turn a tree into something that looks like an ape tree object
    * count is the number that should be assigned to this node
@@ -83,33 +81,41 @@ public:
   }
   /** A function to get information back off a tree          
   * just pass hte label of the descendent node back up the tree.  
-  * if is is */
-int recurse_edge_count_position(std::vector<std::vector<int> > &data, int last_node, int &last_leaf)
+  * if is is 
+  * next_node gives the next unused node label, which is is the label of the current node
+  * The function returns the label of the next_node label that is available                  */
+int recurse_edge_count_position(std::vector<std::vector<int> > &data, int node_label, int &leaf_label, int end_position)
   {
     assert(!isleaf());
-    std::vector<int> add_data(4);
-    add_data[0] = ++last_node;
-    add_data[2] = left->labels.size();
-    add_data[3] = left->position;
-
+    std::vector<int> add_row(4);
+    int next_node = node_label+1;
+    add_row[0] = node_label;
+    add_row[2] = left->labels.size();
     if (left->isleaf()) {
-        add_data[1] = ++last_leaf;
-      } else {
-        last_node = left->recurse_edge_count_position(data, last_node, last_leaf);
-        add_data[1] = last_node;
-      }
-      data.push_back(add_data);
-      add_data[2] = right->labels.size();
-      add_data[3] = right->position;
-      if (right->isleaf()) {
-        add_data[1] = ++last_leaf;
-      } else {
-        last_node = right->recurse_edge_count_position(data, last_node, last_leaf);
-        add_data[1] = last_node;
-      }
-      data.push_back(add_data);
-      return add_data[0];
+      add_row[1] = leaf_label++;
+      add_row[3] = end_position-position;
+      data.push_back(add_row);
+    } else {
+      add_row[1] = next_node;
+      add_row[3] = left->position-position;
+      data.push_back(add_row);
+      next_node = left->recurse_edge_count_position(data, next_node, leaf_label, end_position);
+    } 
+    
+    add_row[2] = right->labels.size();
+    if (right->isleaf()) {
+      add_row[1] = leaf_label++;
+      add_row[3] = end_position-position;
+      data.push_back(add_row);
+    } else {
+      add_row[1] = next_node;
+      add_row[3] = right->position-position;
+      data.push_back(add_row);
+      next_node = right->recurse_edge_count_position(data, next_node, leaf_label, end_position);
+    }
+    return next_node;
   }
+  
   /** is the node a leaf?                                                   */
   bool isleaf() const {
     return (left==0);
@@ -578,10 +584,10 @@ private:
   void next() {
     if (current->isleaf()) {
       if (visited.size()==0) {
-	current=0;
+	      current=0;
       } else {
-	current=visited.top()->right;
-	visited.pop();
+	      current=visited.top()->right;
+	      visited.pop();
       }
     } else {
       visited.push(current);

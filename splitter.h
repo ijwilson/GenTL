@@ -234,7 +234,7 @@ public:
    * for all terminal nodes                                               */
   void apesplit(int *edges, int *ncc, int *cases,int nc);
   /** Alternative to apesplti for building a bifurcating tree             */
-  void edges_positions_counts(int *edge1, int *edge2, int *count, int *position);
+  void edges_positions_counts(int *edge1, int *edge2, int *count, int *position, int end_pos);
     
   /** Get the numbers of cases and controls at the internal nodes and the 
       leaves - in lexical order */
@@ -319,23 +319,24 @@ void splitter<T>::apesplit(int *edges, int *ncc, int *cases,int nc)
 /** get edges counts and positions for a split tree                        */
 
 template <typename T>
-void splitter<T>::edges_positions_counts(int *edge1, int *edge2, int *count, int *position)
+void splitter<T>::edges_positions_counts(int *edge1, int *edge2, int *count, int *position, int end_pos)
 {
   int pos = nleaves();
   
   std::vector<std::vector<int> > yyy;
-  int last_leaf=0;
+  int next_leaf=1;
  
-  root->recurse_edge_count_position(yyy, pos+1, last_leaf);
-  
+  root->recurse_edge_count_position(yyy, pos+1, next_leaf, end_pos);
+  std::cerr << "size of yyy: " << yyy.size() << std::endl;
   assert(yy.size()==2*(pos-1));
   for (size_t ii=0; ii<yyy.size();ii++) {
-    edge1[ii] = yyy[ii][0];
-    edge2[ii] = yyy[ii][1];
-    count[ii] = yyy[ii][3];
-    position[ii] = yyy[ii][4];
+    edge1[ii]    = yyy[ii][0];
+    edge2[ii]    = yyy[ii][1];
+    count[ii]    = yyy[ii][2];
+    position[ii] = yyy[ii][3];
   }
 }
+
 /** Get the number of cases and controls at the nodes - this is written as 
  * to be used by the R interface   */
 template <typename T>
@@ -498,7 +499,7 @@ void splitter<T>::getTipLengths(int StartingPoint, TNT::Array2D<int> &posLRtip)
  */
 template <typename T>
 bool splitter<T>::split(int position) {
-  bool  change=false;
+  bool change=false;
   list<binode *>::iterator ii=leaves.begin();
   std::list<binode *> toadd;
   while (ii!=leaves.end()) {
@@ -508,8 +509,8 @@ bool splitter<T>::split(int position) {
         for (size_t jj=0;jj<(*ii)->labels.size();jj++) {
           lab[haps[(*ii)->labels[jj]][position]].push_back((*ii)->labels[jj]);
         }
-        (*ii)->left=new binode(lab[0],*ii);
-        (*ii)->right=new binode(lab[1],*ii);
+        (*ii)->left=new binode(lab[0], *ii);
+        (*ii)->right=new binode(lab[1], *ii);
         (*ii)->position=position;
         toadd.push_back((*ii)->left);
         toadd.push_back((*ii)->right);

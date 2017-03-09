@@ -2,7 +2,6 @@
 #ifndef SPLITTER_H__
 #define SPLITTER_H__
 
-
 #include <list>
 #include <algorithm>
 #include <stdexcept>
@@ -285,15 +284,14 @@ public:
     return xx;
   }
   /** Get the set of maximum average lengths (for nodes with > k individuals */
-  std::vector<std::pair<int,double> >
-  maxLengths(int k, int nmax); 
+  std::vector<std::pair<int,double> > maxLengths(int k, int nmax); 
   
 private:
-  binode *root;                            /// The root of the tree
-  std::list<binode *> leaves;              /// A list of leaves
-  std::list<binode *> internal;            /// A list of internal nodes
-  T **haps;                                /// A pointer to a matrix of the data
-  int samples,nSNP;                        /// the number of samples and SNPs
+  binode *root;                             /// The root of the tree
+  std::list<binode *> leaves;               /// A list of leaves
+  std::list<binode *> internal;             /// A list of internal nodes
+  T **haps;                                 /// A pointer to a matrix of the data
+  int samples, nSNP;                        /// the number of samples and SNPs
 };
 
 template <typename T>

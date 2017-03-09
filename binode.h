@@ -5,6 +5,7 @@
 #include <vector>
 #include <iterator>
 #include <iosfwd>
+#include <iosfwd>
 #include <stack>
 #include "tnt/tnt.h"
 
@@ -66,17 +67,17 @@ public:
     int newcount=count+1;
     if (left->isleaf()) {
       labs.push_back(left->labels);
-      Edge.push_back(pair<int,int>(count,labs.size()));
+      Edge.push_back(pair<int,int>(count, labs.size()));
     } else {
-      Edge.push_back(std::pair<int,int>(count,newcount));
-      newcount=left->recurseApeSplit(Edge,labs,newcount);
+      Edge.push_back(std::pair<int,int>(count, newcount));
+      newcount = left->recurseApeSplit(Edge, labs, newcount);
     }
     if (right->isleaf()) {
       labs.push_back(right->labels);
-      Edge.push_back(std::pair<int,int>(count,labs.size()));
+      Edge.push_back(std::pair<int,int>(count, labs.size()));
     } else {
-      Edge.push_back(std::pair<int,int>(count,newcount));
-      newcount=right->recurseApeSplit(Edge,labs,newcount);
+      Edge.push_back(std::pair<int,int>(count, newcount));
+      newcount=right->recurseApeSplit(Edge, labs, newcount);
     }
     return newcount;
   }

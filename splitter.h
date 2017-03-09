@@ -234,6 +234,9 @@ public:
   /** An alternative apesplit that gets the numbers of cases and controls
    * for all terminal nodes                                               */
   void apesplit(int *edges, int *ncc, int *cases,int nc);
+  /** Alternative to apesplti for building a bifurcating tree             */
+  void edges_positions_counts(int *edge1, int *edge2, int *count, int *position);
+    
   /** Get the numbers of cases and controls at the internal nodes and the 
       leaves - in lexical order */
   void getCaseControlNodes(int *ncc, int *cases, int nc,int ninternal);
@@ -315,6 +318,26 @@ void splitter<T>::apesplit(int *edges, int *ncc, int *cases,int nc)
       ncc[start+i] = ncc[i];
     }
   }
+/** get edges counts and positions for a split tree                        */
+
+template <typename T>
+void splitter<T>::edges_positions_counts(int *edge1, int *edge2, int *count, int *position)
+{
+  int pos = nleaves();
+  
+  std::vector<std::vector<int> > yyy;
+  int last_leaf=0;
+ 
+  root->recurse_edge_count_position(yyy, pos+1, last_leaf);
+  
+  assert(yy.size()==2*(pos-1));
+  for (size_t ii=0; ii<yyy.size();ii++) {
+    edge1[ii] = yyy[ii][0];
+    edge2[ii] = yyy[ii][1];
+    count[ii] = yyy[ii][3];
+    position[ii] = yyy[ii][4];
+  }
+}
 /** Get the number of cases and controls at the nodes - this is written as 
  * to be used by the R interface   */
 template <typename T>

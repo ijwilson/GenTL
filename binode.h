@@ -80,6 +80,35 @@ public:
     }
     return newcount;
   }
+  /** A function to get information back off a tree          
+  * just pass hte label of the descendent node back up the tree.  
+  * if is is */
+int recurse_edge_count_position(std::vector<std::vector<int> > &data, int last_node, int &last_leaf)
+  {
+    assert(!isleaf());
+    std::vector<int> add_data(4);
+    add_data[0] = ++last_node;
+    add_data[2] = left->labels.size();
+    add_data[3] = left->position;
+
+    if (left->isleaf()) {
+        add_data[1] = ++last_leaf;
+      } else {
+        last_node = left->recurse_edge_count_position(data, last_node, last_leaf);
+        add_data[1] = last_node;
+      }
+      data.push_back(add_data);
+      add_data[2] = right->labels.size();
+      add_data[3] = right->position;
+      if (right->isleaf()) {
+        add_data[1] = ++last_leaf;
+      } else {
+        last_node = right->recurse_edge_count_position(data, last_node, last_leaf);
+        add_data[1] = last_node;
+      }
+      data.push_back(add_data);
+      return add_data[0];
+  }
   /** is the node a leaf?                                                   */
   bool isleaf() const {
     return (left==0);

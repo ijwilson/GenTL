@@ -1,8 +1,8 @@
 #ifndef MCMC_OL_H__
 #define MCMC_OL_H__
 
-#include  "gsl_rand.H"
-#include "gsl_distributions.H"
+#include  "gsl_rand.h"
+#include "gsl_distributions.h"
 #include "tnt/tnt.h"
 
 class onelocusMCMC {

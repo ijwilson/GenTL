@@ -5,7 +5,7 @@
 #include <string>
 #include <iosfwd>
 
-#include "fasta.H"
+#include "fasta.h"
 
 /** A class to hold flowgram information                                          
  * This class holds the flowgram information for a single sequence     */

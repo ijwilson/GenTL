@@ -7,7 +7,7 @@
 #include <stack>
 #include "tnt/tnt.h"
 
-#include "testStats.H"
+#include "testStats.h"
 
 
 /** Note that both of these should be sorted                               */

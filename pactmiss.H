@@ -2,8 +2,8 @@
 #ifndef PACT_H__
 #define PACT_H__
 #include "tnt/tnt.h"
-#include "utilcpp/gsl_rand.H"
-#include "utilcpp/GenEnums.H"
+#include "utilcpp/gsl_rand.h"
+#include "utilcpp/GenEnums.h"
 #include <vector>
 #include <iostream>
 #include <deque>

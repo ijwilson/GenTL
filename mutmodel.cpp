@@ -1,4 +1,4 @@
-#include "mutmodel.H"
+#include "mutmodel.h"
 
 using namespace GenTL;
 

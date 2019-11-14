@@ -2,7 +2,7 @@
 // Time-stamp: <2012-01-27 11:34:53 ijw>
 #ifndef SUBDIVPACT_H__
 #define SUBDIVPACT_H__
-#include "GenTL/pact.H"
+#include "GenTL/pact.h"
 
 /** templatised subdivided pac class.
  */

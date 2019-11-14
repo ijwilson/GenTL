@@ -1,4 +1,4 @@
-#include "spac.H"
+#include "spac.h"
 #include "utilcpp/newio.h"
 #include <iomanip>
 /** operator for an mcmc analysis                                     */

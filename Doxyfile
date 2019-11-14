@@ -113,9 +113,9 @@ FILE_PATTERNS          = *.c \
                          *.C++ \
                          *.II \
                          *.I++ \
-                         *.H \
-                         *.HH \
-                         *.H++ \
+                         *.h \
+                         *.hH \
+                         *.h++ \
                          *.CS \
                          *.PHP \
                          *.PHP3 \

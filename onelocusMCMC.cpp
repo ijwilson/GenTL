@@ -1,5 +1,5 @@
-#include "onelocusMCMC.H"
-#include "onelocusF.H"
+#include "onelocusMCMC.h"
+#include "onelocusF.h"
 #include <map>
        
 #ifndef USE_R

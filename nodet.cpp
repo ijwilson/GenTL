@@ -1,5 +1,5 @@
-#include "coalescent.H"
-#include "nodet.H"
+#include "coalescent.h"
+#include "nodet.h"
 #include <algorithm>  // for max_element
 #include <map>
 

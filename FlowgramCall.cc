@@ -1,7 +1,7 @@
-#include "FlowgramCall.H"
+#include "FlowgramCall.h"
 #include "gsl/gsl_randist.h"
-#include "gsl_rand.H"
-#include "util.H"
+#include "gsl_rand.h"
+#include "util.h"
 
 #include "tnt/tnt.h"
 

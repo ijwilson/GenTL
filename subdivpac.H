@@ -1,7 +1,7 @@
 // Time-stamp: <2006-04-12 23:16:30 uijw>
 #ifndef SUBDIVPAC_H__
 #define SUBDIVPAC_H__
-#include "pac.H"    
+#include "pac.h"    
 class subdivpac  : public pac {
 public:
   /** the constructor                                                  */

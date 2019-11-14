@@ -3,7 +3,7 @@
 #define ONELOCUSF_H__
 
 #include "tnt/tnt.h"
-#include "gsl_rand.H"
+#include "gsl_rand.h"
 
 /** One locus version of the PAC model.
  * 

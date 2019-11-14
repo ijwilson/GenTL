@@ -1,6 +1,6 @@
-#include "readdata.H"
-#include "newio.H"
-#include "myxml.H"
+#include "readdata.h"
+#include "newio.h"
+#include "myxml.h"
 
 #include <stdexcept>
 #include <deque>

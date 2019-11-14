@@ -1,5 +1,5 @@
-#include "pac.H"
-#include "utilityfunctionals.H"
+#include "pac.h"
+#include "utilityfunctionals.h"
 #include <cassert>
 #include <vector>
 #include <iterator>

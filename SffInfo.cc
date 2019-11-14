@@ -1,5 +1,5 @@
-#include "SffInfo.H"
-#include "newio.H"
+#include "SffInfo.h"
+#include "newio.h"
 
 #include <iostream>
 #include <fstream>

@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <map>
 #include "tnt/tnt.h"
-#include "utilcpp/utilityfunctionals.H"
+#include "utilcpp/utilityfunctionals.h"
 
 lfactorl lfactrl;
 

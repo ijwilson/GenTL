@@ -3,7 +3,7 @@
 #define GROWTHMODEL_H__
 
 #include <utility>     // for pair
-#include "gsl_rand.H"
+#include "gsl_rand.h"
 
 using std::vector;
 

@@ -3,8 +3,8 @@
 #include <sstream>
 #include <cmath>
 #include "gsl/gsl_randist.h"
-#include "flowSeq.H"
-#include "util.H" // for error
+#include "flowSeq.h"
+#include "util.h" // for error
 /**                                                                              */
 flowSeq::flowSeq(size_t len,const std::string &Floworder)
  :copies(len),order(Floworder) {

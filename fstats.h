@@ -2,8 +2,8 @@
 #define FSTATS_H_
 
 #include "tnt/tnt.h"
-#include "utilcpp/tntutils.H"
-#include "utilcpp/gsl_minimiser.H"
+#include "utilcpp/tntutils.h"
+#include "utilcpp/gsl_minimiser.h"
 #include <map>
 double log_dmulti_dirichlet(const int *x,const  double *alpha, int n);
 

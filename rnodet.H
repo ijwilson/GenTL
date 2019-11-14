@@ -7,13 +7,13 @@
 #include <cassert>
 #include <iosfwd>
 // utility headers
-#include "utilityfunctionals.H"
-//#include "util.H"
+#include "utilityfunctionals.h"
+//#include "util.h"
 // Genetics Headers
-#include "activesites.H"
-#include "linesOfDescent.H"
-#include "recombnode.H"
-#include "recomblist.H"
+#include "activesites.h"
+#include "linesOfDescent.h"
+#include "recombnode.h"
+#include "recomblist.h"
 
 
 namespace GenTL {

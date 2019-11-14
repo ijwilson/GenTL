@@ -1,8 +1,8 @@
 //#include "GenTL/coalescent.h"
 //#include "GenTL/nodet.h"
-#include "coalescent.H"
-#include "nodet.H"
-#include "gsl_rand.H"
+#include "coalescent.h"
+#include "nodet.h"
+#include "gsl_rand.h"
 using namespace GenTL; 
 
 /******************************************************************************************/

@@ -4,7 +4,7 @@
 #include <iosfwd>
 #include <vector>
 
-#include "gsl_rand.H"
+#include "gsl_rand.h"
 
 
 

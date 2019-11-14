@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "utilcpp/haplotype.H"
-#include "utilcpp/gsl_rand.H"
-#include "utilcpp/GenEnums.H"
+#include "utilcpp/haplotype.h"
+#include "utilcpp/gsl_rand.h"
+#include "utilcpp/GenEnums.h"
 
 
 HaplotypeArray simPAC(const int nloci, const int n

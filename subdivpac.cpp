@@ -1,6 +1,6 @@
 // Time-stamp: <2012-01-30 09:50:03 ijw>
-#include "subdivpac.H"
-#include "newio.H"
+#include "subdivpac.h"
+#include "newio.h"
 #include <iomanip>
 /** operator for an mcmc analysis                                     */
 double subdivpac::operator()(double rho, const TNT::Array1D<double> &F, const std::pair<int,int> &changeorder) 

@@ -3,8 +3,8 @@
 
 #include <map>
 #include <algorithm>
-#include "fasta.H"
-#include "flowSeq.H"
+#include "fasta.h"
+#include "flowSeq.h"
 
 class GaplessAlignment {
 	public:

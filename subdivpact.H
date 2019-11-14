@@ -1,6 +1,6 @@
 #ifndef SUBDIVPACT_H__
 #define SUBDIVPACT_H__
-#include "pact.H"    
+#include "pact.h"    
 /// product of approximate conditionals for a subdivided population
 template <typename T>
 class subdivpact  : public pact<T> {

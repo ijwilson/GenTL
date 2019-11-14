@@ -1,7 +1,7 @@
-#include "flowGram.H"
-#include "SffInfo.H"
-#include "newio.H"
-#include "flowSeq.H"
+#include "flowGram.h"
+#include "SffInfo.h"
+#include "newio.h"
+#include "flowSeq.h"
 #include <sstream>
 #include <cstdlib>  // for system
 #include <cstdio>  // tmpnam  

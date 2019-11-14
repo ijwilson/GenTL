@@ -1,4 +1,4 @@
-#include "onelocusF.H"
+#include "onelocusF.h"
 #include <map>
 #include <stdexcept>
 #include <fstream>

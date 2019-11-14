@@ -3,11 +3,11 @@
 
 #include <vector>
 
-#include "gsl_rand.H"
-#include "gsl_distributions.H"
+#include "gsl_rand.h"
+#include "gsl_distributions.h"
 
-#include "flowSeq.H"
-#include "flowGram.H"
+#include "flowSeq.h"
+#include "flowGram.h"
 
 /** An approximate sequential Dirichlet process for 
  * alignment                                          */

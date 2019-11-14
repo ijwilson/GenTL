@@ -7,15 +7,15 @@
 #include <fstream>
 #include <vector>
 
-#include "util.H"
-#include "newick.H"
-#include "poptree.H"
-#include "time.H"
-#include "node.H"
-#include "lhood.H"
-#include "muts.H"
+#include "util.h"
+#include "newick.h"
+#include "poptree.h"
+#include "time.h"
+#include "node.h"
+#include "lhood.h"
+#include "muts.h"
 
-#include "newio.H"
+#include "newio.h"
 
 
 /******************************************************************/

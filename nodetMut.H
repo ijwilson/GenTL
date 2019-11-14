@@ -6,11 +6,11 @@
 #include <vector>
 #include <iostream>
 #include <stdexcept>
-#include "gsl_rand.H"
-#include "gsl_distributions.H"
-#include "coalescent.H"
+#include "gsl_rand.h"
+#include "gsl_distributions.h"
+#include "coalescent.h"
 
-/** This is aa different version of the nodet.H header file that has been altered to 
+/** This is aa different version of the nodet.h header file that has been altered to 
  * allow for generic mutation functors - so that we just need to pass a class that
  * knows how to mutate itself and we can simulate using the machinery that is 
  * already there.  At the moment this is just for the non-arg classes but I 

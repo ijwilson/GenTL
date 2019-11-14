@@ -1,4 +1,4 @@
-#include "pac.H"
+#include "pac.h"
 #include "utilcpp/utilityfunctionals.h"
 #include <cassert>
 #include <vector>

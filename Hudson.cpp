@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
-#include "Hudson.H"
+#include "Hudson.h"
 
 std::ostream& Hudson::print(std::ostream &o) 
   {

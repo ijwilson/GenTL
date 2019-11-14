@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "gsl_distributions.H"
-#include "gsl_random.H"
+#include "gsl_distributions.h"
+#include "gsl_random.h"
 
 namespace GenTL {
 

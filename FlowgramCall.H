@@ -1,7 +1,7 @@
 #ifndef FLOWGTRAMCALL_H__
 #define  FLOWGTRAMCALL_H__
-#include "flowSeq.H"
-#include "gsl_rand.H"
+#include "flowSeq.h"
+#include "gsl_rand.h"
 
 
 

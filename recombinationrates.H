@@ -6,9 +6,9 @@
 #include <sstream>
 
 #include "gentldef.h"
-#include "gsl_rand.H"
-#include "utilityfunctionals.H"
-#include "rnodet.H"
+#include "gsl_rand.h"
+#include "utilityfunctionals.h"
+#include "rnodet.h"
 
 typedef std::deque<double> RATEARRAY;
 

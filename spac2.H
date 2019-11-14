@@ -3,7 +3,7 @@
 #ifndef SUBDIVPACT_H__
 #define SUBDIVPACT_H__
 #include <numeric> // for accumulate
-#include "pact2.H"
+#include "pact2.h"
 
 template <typename T>
 class spact  : public pact2<T> {

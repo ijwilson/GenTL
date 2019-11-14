@@ -1,7 +1,7 @@
 #ifndef SEQUENCE_COLLLECTION_H__
 #define SEQUENCE_COLLLECTION_H__
 
-#include "flowSeq.H"
+#include "flowSeq.h"
 #include <map>
 #include <vector>
 

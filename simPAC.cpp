@@ -1,6 +1,6 @@
 #include <numeric>                         // for accumulate
 #include <deque>
-#include "simPAC.H"
+#include "simPAC.h"
 #include "tnt/tnt.h"
 
 /** simulate using a PAC likelihood.  Note that this is for a recombination rate

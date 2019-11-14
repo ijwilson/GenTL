@@ -5,8 +5,8 @@
 #include <vector>
 #include <map>
 #include <cassert>
-#include "flowSeq.H"
-#include "newio.H"
+#include "flowSeq.h"
+#include "newio.h"
 
 /** The assumed order for the flowsequences                          */
 const char order[4]={'G','T','A','C'};

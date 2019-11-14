@@ -1,6 +1,6 @@
-#include "SeqDP.H"
-#include "FlowgramCall.H"
-#include "progressBar.H"
+#include "SeqDP.h"
+#include "FlowgramCall.h"
+#include "progressBar.h"
 
 double llDirichletProcess(double a, const std::vector<int> &y,int tot) 
 {

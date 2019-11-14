@@ -6,8 +6,8 @@
 
 #include <stdexcept>
 // utility
-#include "gsl_rand.H"
-#include "rnodet.H"
+#include "gsl_rand.h"
+#include "rnodet.h"
 
 namespace GenTL {
   /** recursively write leaves   */

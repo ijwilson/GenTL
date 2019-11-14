@@ -1,4 +1,4 @@
-#include "StepStone.H"
+#include "StepStone.h"
 #include <iostream>
 
 std::ostream &StepStone::print(std::ostream &o) const {

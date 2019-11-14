@@ -1,8 +1,8 @@
 #ifndef PYROSEQ_H__
 #define PYROSEQ_H__
 #include <string>
-#include "fasta.H"
-#include "SffInfo.H"
+#include "fasta.h"
+#include "SffInfo.h"
 /** A class to call the Pyrobayes software and read in the results from an sff file */
 class PyroSeq {
 public:

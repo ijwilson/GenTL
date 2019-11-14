@@ -2,7 +2,7 @@
 #ifndef PAC_H__
 #define PAC_H__
 #include "tnt/tnt.h"
-#include "gsl_rand.H"
+#include "gsl_rand.h"
 #include <vector>
 #include <iostream>
 #include <iterator>  // for ostream_iterator

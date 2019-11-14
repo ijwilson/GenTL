@@ -4,7 +4,7 @@
 #define MIGMATRIX_H_ 
 
 #include <utility> // for pair
-#include "gsl_rand.H"
+#include "gsl_rand.h"
 
 namespace GenTL {
   /** \brief An abstract class to hold "migration matrices"

@@ -4,8 +4,8 @@
 #define PACT2_H__
 #include <fstream>
 #include "tnt/tnt.h"
-#include "gsl_rand.H"
-#include "GenEnums.H"
+#include "gsl_rand.h"
+#include "GenEnums.h"
 #include <deque>
 
 

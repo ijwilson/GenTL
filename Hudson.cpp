@@ -97,11 +97,11 @@ double Hudson::getprobcond(int n, int n1, int n2, int n11, double r, int nsites,
     m2 = MIN( n1, n2) ;
 
     for( k=0; k<nsites; k++){
-      if( recrates[k] == r ) return(  prob[k][m1][m2][n11]/ppoly[k]   ) ;
+      if( recrates[k] == r ) return(  prob[k][m1][m2][n11]/ppoly[k]) ;
       if( recrates[k] >r )  return( extrap(prob[k-1][m1][m2][n11]/ppoly[k-1],
 					   prob[k][m1][m2][n11]/ppoly[k] , recrates[k-1],recrates[k],r));
     }
-    return(  prob[nsites-1][m1][m2][n11]/ppoly[nsites-1]  ) ;
+    return(  prob[nsites-1][m1][m2][n11]/ppoly[nsites-1]) ;
 
   }
 
@@ -143,8 +143,8 @@ double  Hudson::extrap(  double p1, double p2, double r1, double r2, double r )
     m2 = MIN( n1, n2) ;
 
     for( k=0; k<nsites; k++){
-      if(recrates[k] == r)return( nadprob(n, k,m1,m2,n11, prob)/ppoly[k ] ) ;
-      if(recrates[k] >r) return(extrap(nadprob(n,k-1,m1,m2,n11, prob)/ppoly[k -1] ,
+      if(recrates[k] == r)return( nadprob(n, k, m1, m2, n11, prob)/ppoly[k ] ) ;
+      if(recrates[k] >r) return(extrap(nadprob(n, k-1, m1, m2, n11, prob)/ppoly[k -1] ,
 				       nadprob(n,k,m1,m2,n11,prob)/ppoly[k] , recrates[k-1],
 				       recrates[k],r));
     }

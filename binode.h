@@ -5,6 +5,7 @@
 #include <vector>
 #include <iterator>
 #include <iosfwd>
+#include <iosfwd>
 #include <stack>
 #include "tnt/tnt.h"
 
@@ -42,19 +43,17 @@ template <class T> class NLRIterator;
  */
 class binode {
 public:
-  binode(const std::vector<int> &a,binode *father=0):
-    left(0),right(0),up(father),position(-1),labels(a) {}
+  binode(const std::vector<int> &a, binode *father=0):
+    left(0), right(0), up(father), position(-1), labels(a) {}
   /** Print the labels at a node                                           */
   std::ostream & printlabels(std::ostream &o) {
     std::copy(labels.begin(),labels.end(),std::ostream_iterator<int>(o," "));
     return o;
   }
 
-
   std::pair<int,int> RecurseLeftRightDistances(const std::vector<int> &Cases);
   std::vector<int>  RecurseCherries(const std::vector<int> &Cases);
   std::vector<double>  RecurseSumHeight(const std::vector<int> &Cases,int CC[2]);
-
 
   /** A function to turn a tree into something that looks like an ape tree object
    * count is the number that should be assigned to this node
@@ -66,20 +65,57 @@ public:
     int newcount=count+1;
     if (left->isleaf()) {
       labs.push_back(left->labels);
-      Edge.push_back(pair<int,int>(count,labs.size()));
+      Edge.push_back(pair<int,int>(count, labs.size()));
     } else {
-      Edge.push_back(std::pair<int,int>(count,newcount));
-      newcount=left->recurseApeSplit(Edge,labs,newcount);
+      Edge.push_back(std::pair<int,int>(count, newcount));
+      newcount = left->recurseApeSplit(Edge, labs, newcount);
     }
     if (right->isleaf()) {
       labs.push_back(right->labels);
-      Edge.push_back(std::pair<int,int>(count,labs.size()));
+      Edge.push_back(std::pair<int,int>(count, labs.size()));
     } else {
-      Edge.push_back(std::pair<int,int>(count,newcount));
-      newcount=right->recurseApeSplit(Edge,labs,newcount);
+      Edge.push_back(std::pair<int,int>(count, newcount));
+      newcount=right->recurseApeSplit(Edge, labs, newcount);
     }
     return newcount;
   }
+  /** A function to get information back off a tree          
+  * just pass hte label of the descendent node back up the tree.  
+  * if is is 
+  * next_node gives the next unused node label, which is is the label of the current node
+  * The function returns the label of the next_node label that is available                  */
+int recurse_edge_count_position(std::vector<std::vector<int> > &data, int node_label, int &leaf_label, int end_position)
+  {
+    assert(!isleaf());
+    std::vector<int> add_row(4);
+    int next_node = node_label+1;
+    add_row[0] = node_label;
+    add_row[2] = left->labels.size();
+    if (left->isleaf()) {
+      add_row[1] = leaf_label++;
+      add_row[3] = end_position-position;
+      data.push_back(add_row);
+    } else {
+      add_row[1] = next_node;
+      add_row[3] = left->position-position;
+      data.push_back(add_row);
+      next_node = left->recurse_edge_count_position(data, next_node, leaf_label, end_position);
+    } 
+    
+    add_row[2] = right->labels.size();
+    if (right->isleaf()) {
+      add_row[1] = leaf_label++;
+      add_row[3] = end_position-position;
+      data.push_back(add_row);
+    } else {
+      add_row[1] = next_node;
+      add_row[3] = right->position-position;
+      data.push_back(add_row);
+      next_node = right->recurse_edge_count_position(data, next_node, leaf_label, end_position);
+    }
+    return next_node;
+  }
+  
   /** is the node a leaf?                                                   */
   bool isleaf() const {
     return (left==0);
@@ -548,10 +584,10 @@ private:
   void next() {
     if (current->isleaf()) {
       if (visited.size()==0) {
-	current=0;
+	      current=0;
       } else {
-	current=visited.top()->right;
-	visited.pop();
+	      current=visited.top()->right;
+	      visited.pop();
       }
     } else {
       visited.push(current);

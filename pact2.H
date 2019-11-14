@@ -2,7 +2,9 @@
 //    Time-stamp: <2012-05-30 17:31:18 nijw>
 #ifndef PACT2_H__
 #define PACT2_H__
+#ifndef USE_R
 #include <fstream>
+#endif
 #include "tnt/tnt.h"
 #include "gsl_rand.h"
 #include "GenEnums.h"
